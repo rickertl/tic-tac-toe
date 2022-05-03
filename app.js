@@ -29,58 +29,61 @@
 // });
 
 let plays = [];
-plays.length = 10;
+plays.length = 9;
 let weapon = "X";
 
-// listen for plays
-const playListener = (() => {
-  // get user click
-  const container = document.querySelector(".gameboard");
-  const cells = document.querySelectorAll(".gameboard > div");
-  cells.forEach((cell) => {
+const container = document.querySelector(".gameboard");
+const renderBoard = (function () {
+  // clean array
+  // const cleanArray = plays.filter(function () {
+  //   return true;
+  // });
+  for (let i = 0; i < plays.length; i++) {
+    let cell = document.createElement("div");
+    cell.classList.add(i);
+    plays[i] === "" ? (cell.textContent = plays[i]) : (cell.textContent = "");
+    container.appendChild(cell);
     cell.addEventListener("click", () => {
-      const cellNumber = cell.className;
-      const target = document.getElementsByClassName(cellNumber);
       if (cell.textContent.trim() === "") {
-        plays.splice(cellNumber, 1, weapon);
+        plays.splice(i, 1, weapon);
         cell.textContent = weapon;
         weapon === "X" ? (weapon = "O") : (weapon = "X");
         winnerCheck();
       }
     });
-  });
+  }
 })();
 
 // check for winner
 const winnerCheck = function () {
   if (
     // horizontal checks
-    (Object.hasOwn(plays, 1) && // makes sure not empty
-      plays[1] === plays[2] &&
-      plays[2] === plays[3]) ||
-    (Object.hasOwn(plays, 4) && // makes sure not empty
-      plays[4] === plays[5] &&
-      plays[5] === plays[6]) ||
-    (Object.hasOwn(plays, 7) && // makes sure not empty
-      plays[7] === plays[8] &&
-      plays[8] === plays[9]) ||
+    (Object.hasOwn(plays, 0) && // makes sure not empty
+      plays[0] === plays[1] &&
+      plays[1] === plays[2]) ||
+    (Object.hasOwn(plays, 3) && // makes sure not empty
+      plays[3] === plays[4] &&
+      plays[4] === plays[5]) ||
+    (Object.hasOwn(plays, 6) && // makes sure not empty
+      plays[6] === plays[7] &&
+      plays[7] === plays[8]) ||
     // vertical checks
+    (Object.hasOwn(plays, 0) && // makes sure not empty
+      plays[0] === plays[3] &&
+      plays[3] === plays[6]) ||
     (Object.hasOwn(plays, 1) && // makes sure not empty
       plays[1] === plays[4] &&
       plays[4] === plays[7]) ||
     (Object.hasOwn(plays, 2) && // makes sure not empty
       plays[2] === plays[5] &&
       plays[5] === plays[8]) ||
-    (Object.hasOwn(plays, 3) && // makes sure not empty
-      plays[3] === plays[6] &&
-      plays[6] === plays[9]) ||
     // diagonal checks
-    (Object.hasOwn(plays, 1) && // makes sure not empty
-      plays[1] === plays[5] &&
-      plays[5] === plays[9]) ||
-    (Object.hasOwn(plays, 7) && // makes sure not empty
-      plays[7] === plays[5] &&
-      plays[5] === plays[3])
+    (Object.hasOwn(plays, 0) && // makes sure not empty
+      plays[0] === plays[4] &&
+      plays[4] === plays[8]) ||
+    (Object.hasOwn(plays, 6) && // makes sure not empty
+      plays[6] === plays[4] &&
+      plays[4] === plays[2])
   ) {
     setTimeout(function () {
       alert("Winner!");
