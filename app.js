@@ -42,7 +42,7 @@ const renderBoard = (function () {
   // game play
   for (let i = 0; i < plays.length; i++) {
     let cell = document.createElement("div");
-    cell.classList.add(i);
+    cell.setAttribute("data-id", i);
     plays[i] === "" ? (cell.textContent = plays[i]) : (cell.textContent = "");
     container.appendChild(cell);
     cell.addEventListener("click", () => {
@@ -98,7 +98,7 @@ const renderBoard = (function () {
     container.textContent = "";
     for (let i = 0; i < plays.length; i++) {
       let finalCell = document.createElement("div");
-      finalCell.classList.add(i);
+      finalCell.setAttribute("data-id", i);
       finalCell.textContent = plays[i];
       container.appendChild(finalCell);
     }
