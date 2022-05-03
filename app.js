@@ -44,16 +44,17 @@ const renderBoard = (function () {
         if (cell.textContent === "") {
           const target = cell.getAttribute("data-id");
           plays.splice(target, 1, weapon);
-          weapon === "X" ? (weapon = "O") : (weapon = "X");
           render();
-          winnerCheck();
+          winnerCheck(weapon);
+          // ready weapon for next play
+          weapon === "X" ? (weapon = "O") : (weapon = "X");
         }
       });
     });
   }
 
   // check for winner
-  function winnerCheck() {
+  function winnerCheck(weapon) {
     if (
       // horizontal checks
       (Object.hasOwn(plays, 0) && // makes sure not empty
@@ -84,7 +85,7 @@ const renderBoard = (function () {
         plays[4] === plays[2])
     ) {
       setTimeout(function () {
-        alert("Winner!");
+        alert(`${weapon} wins!`);
         gameOn = false;
         render();
       }, 500);
