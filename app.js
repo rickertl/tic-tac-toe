@@ -3,15 +3,6 @@
 // 2. player
 // 3. control
 
-// // // create module for gameboard
-// const gameBoard = (() => {
-//   //cache gameboard
-//   const container = document.querySelector(".gameboard");
-//   //   const div = board.find("div");
-
-//   return { container };
-// })();
-
 // // create factory fuction for player
 // const player = (name, weapon) => {
 //   const getName = () => name;
@@ -19,39 +10,45 @@
 //   return { getName, getWeapon };
 // };
 
-// listen for click
-// const cells = gameBoard.board;
-// listen for "number" button clicks
-// cells.forEach((cell) => {
-//   cells.addEventListener("click", () => {
-//     console.log("cell clickd");
-//   });
-// });
-
-let plays = [];
-plays.length = 9;
-let weapon = "X";
-
-const container = document.querySelector(".gameboard");
 const renderBoard = (function () {
-  // clean array
-  // const cleanArray = plays.filter(function () {
-  //   return true;
-  // });
+  let plays = [];
+  plays.length = 9;
+  let weapon = "X";
+  let gameOn = true;
 
-  // game play
-  for (let i = 0; i < plays.length; i++) {
-    let cell = document.createElement("div");
-    cell.setAttribute("data-id", i);
-    plays[i] === "" ? (cell.textContent = plays[i]) : (cell.textContent = "");
-    container.appendChild(cell);
-    cell.addEventListener("click", () => {
-      if (cell.textContent.trim() === "") {
-        plays.splice(i, 1, weapon);
-        cell.textContent = weapon;
-        weapon === "X" ? (weapon = "O") : (weapon = "X");
-        winnerCheck();
-      }
+  // cache gameboard
+  const container = document.querySelector(".gameboard");
+
+  // initialize game
+  render();
+
+  // render from plays array
+  function render() {
+    container.textContent = "";
+    for (let i = 0; i < plays.length; i++) {
+      let cell = document.createElement("div");
+      cell.setAttribute("data-id", i);
+      cell.textContent = plays[i];
+      container.appendChild(cell);
+    }
+    if (gameOn) {
+      playWatcher();
+    }
+  }
+
+  // watch for clicks
+  function playWatcher() {
+    const cells = container.querySelectorAll("div");
+    cells.forEach((cell) => {
+      cell.addEventListener("click", () => {
+        if (cell.textContent === "") {
+          const target = cell.getAttribute("data-id");
+          plays.splice(target, 1, weapon);
+          weapon === "X" ? (weapon = "O") : (weapon = "X");
+          render();
+          winnerCheck();
+        }
+      });
     });
   }
 
@@ -88,19 +85,9 @@ const renderBoard = (function () {
     ) {
       setTimeout(function () {
         alert("Winner!");
-        renderUnplayable();
+        gameOn = false;
+        render();
       }, 500);
-    }
-  }
-
-  // stop board from playable
-  function renderUnplayable() {
-    container.textContent = "";
-    for (let i = 0; i < plays.length; i++) {
-      let finalCell = document.createElement("div");
-      finalCell.setAttribute("data-id", i);
-      finalCell.textContent = plays[i];
-      container.appendChild(finalCell);
     }
   }
 })();
