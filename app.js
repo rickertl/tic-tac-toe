@@ -85,6 +85,11 @@
           alert(`${weapon} wins!`);
         }, 500);
         this.gameOn = false;
+      } else if (!this.plays.includes(undefined)) {
+        setTimeout(function () {
+          alert("Tie!");
+        }, 500);
+        this.gameOn = false;
       }
     },
   };
