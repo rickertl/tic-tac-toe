@@ -44,12 +44,12 @@
       if (event.target.textContent === "") {
         const index = event.target.getAttribute("data-id");
         this.plays.splice(index, 1, this.weapon);
+        // ready weapon for next play
+        this.weapon === "X" ? (this.weapon = "O") : (this.weapon = "X");
       }
       this.render();
       this.winnerCheck(this.weapon);
       this.bindEvents();
-      // ready weapon for next play
-      this.weapon === "X" ? (this.weapon = "O") : (this.weapon = "X");
     },
     winnerCheck: function (weapon) {
       if (
@@ -96,3 +96,5 @@
 
   gameboard.init();
 })();
+
+// bugs / to do
