@@ -15,6 +15,7 @@
     plays: new Array(9),
     weapon: "X",
     gameOn: true,
+    resetButton: document.createElement("button"),
     init: function () {
       this.cacheDom();
       this.render();
@@ -32,9 +33,8 @@
         this.container.appendChild(cell);
       }
       if (this.gameOn === false) {
-        const resetButton1 = document.createElement("button");
-        resetButton1.textContent = "Play Again?";
-        this.container.appendChild(resetButton1);
+        this.resetButton.textContent = "Play Again?";
+        this.container.appendChild(this.resetButton);
       }
     },
     bindEvents: function () {
@@ -44,8 +44,7 @@
           cell.addEventListener("click", this.addPlay.bind(this));
         });
       } else {
-        const resetButton2 = this.container.querySelector("button");
-        resetButton2.addEventListener("click", this.resetPlay.bind(this));
+        this.resetButton.addEventListener("click", this.resetPlay.bind(this));
       }
     },
     addPlay: function (event) {
@@ -115,5 +114,3 @@
 
   gameboard.init();
 })();
-
-// need to figure out how to use resetbutton in two different methods
