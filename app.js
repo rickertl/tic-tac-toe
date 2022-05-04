@@ -15,6 +15,8 @@ const gameboard = (() => {
   let plays = new Array(9);
   let weapon = "X";
   let gameOn = true;
+  let winner = "";
+  let result = "";
   const resetButton = document.createElement("button");
 
   // cache DOM
@@ -32,8 +34,7 @@ const gameboard = (() => {
       container.appendChild(cell);
     }
     if (!gameOn) {
-      resetButton.textContent = "Play Again?";
-      container.appendChild(resetButton);
+      _gameOver();
     }
   }
 
@@ -52,7 +53,7 @@ const gameboard = (() => {
     if (event.target.textContent === "") {
       const index = event.target.getAttribute("data-id");
       plays.splice(index, 1, weapon);
-      _winnerCheck(weapon);
+      _winnerCheck();
       // ready weapon for next play
       weapon === "X" ? (weapon = "O") : (weapon = "X");
     }
@@ -65,6 +66,8 @@ const gameboard = (() => {
     plays = new Array(9);
     weapon = "X";
     gameOn = true;
+    winner = "";
+    result = "";
     _render();
     _bindEvents();
   }
@@ -99,20 +102,24 @@ const gameboard = (() => {
         plays[6] === plays[4] &&
         plays[4] === plays[2])
     ) {
-      _gameOver("regular");
+      gameOn = false;
+      winner = weapon;
+      result = "normal";
     } else if (!plays.includes(undefined)) {
-      _gameOver("tie");
+      gameOn = false;
+      result = "tie";
     }
   }
 
-  function _gameOver(result) {
-    if (result === "regular") {
-      container.setAttribute("data-message", `${weapon} wins!`);
+  function _gameOver() {
+    if (result === "normal") {
+      container.setAttribute("data-message", `${winner} wins!`);
     } else {
       container.setAttribute("data-message", "Tie!");
     }
     container.classList.add("gameover");
-    gameOn = false;
+    resetButton.textContent = "Play Again?";
+    container.appendChild(resetButton);
   }
 })();
 
