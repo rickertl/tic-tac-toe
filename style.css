@@ -25,6 +25,7 @@ h1 {
   outline: 4px solid var(--blue);
   justify-content: center;
   margin: 40px auto;
+  position: relative;
 }
 .gameboard > div {
   height: var(--cellsize);
@@ -36,9 +37,6 @@ h1 {
   align-items: center;
   justify-content: center;
   overflow: hidden;
-}
-.gameover {
-  position: relative;
 }
 .gameover::after {
   content: attr(data-message);
@@ -53,4 +51,21 @@ h1 {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.gameboard button {
+  position: absolute;
+  z-index: 1;
+  align-self: flex-start;
+  justify-self: center;
+  margin-top: 60px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  cursor: pointer;
+  background-color: white;
+  border: none;
+  outline: none;
+  border-radius: 5px;
+}
+.gameboard button:hover {
+  background-color: lightskyblue;
 }

@@ -31,6 +31,11 @@
         cell.textContent = this.plays[i];
         this.container.appendChild(cell);
       }
+      if (this.gameOn === false) {
+        const resetButton1 = document.createElement("button");
+        resetButton1.textContent = "Play Again?";
+        this.container.appendChild(resetButton1);
+      }
     },
     bindEvents: function () {
       if (this.gameOn === true) {
@@ -38,6 +43,10 @@
         cells.forEach((cell) => {
           cell.addEventListener("click", this.addPlay.bind(this));
         });
+      }
+      if (this.gameOn === false) {
+        const resetButton2 = this.container.querySelector("button");
+        resetButton2.addEventListener("click", this.resetPlay.bind(this));
       }
     },
     addPlay: function (event) {
@@ -48,6 +57,14 @@
         // ready weapon for next play
         this.weapon === "X" ? (this.weapon = "O") : (this.weapon = "X");
       }
+      this.render();
+      this.bindEvents();
+    },
+    resetPlay: function () {
+      this.container.classList.remove("gameover");
+      this.plays = new Array(9);
+      this.weapon = "X";
+      this.gameOn = true;
       this.render();
       this.bindEvents();
     },
@@ -100,4 +117,4 @@
   gameboard.init();
 })();
 
-// working on win overlay
+// need to figure out how to use resetbutton in two different methods
