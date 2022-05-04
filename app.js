@@ -44,11 +44,11 @@
       if (event.target.textContent === "") {
         const index = event.target.getAttribute("data-id");
         this.plays.splice(index, 1, this.weapon);
+        this.winnerCheck(this.weapon);
         // ready weapon for next play
         this.weapon === "X" ? (this.weapon = "O") : (this.weapon = "X");
       }
       this.render();
-      this.winnerCheck(this.weapon);
       this.bindEvents();
     },
     winnerCheck: function (weapon) {
@@ -81,20 +81,23 @@
           this.plays[6] === this.plays[4] &&
           this.plays[4] === this.plays[2])
       ) {
-        setTimeout(function () {
-          alert(`${weapon} wins!`);
-        }, 500);
-        this.gameOn = false;
+        this.gameOver("regular", weapon, this.container);
       } else if (!this.plays.includes(undefined)) {
-        setTimeout(function () {
-          alert("Tie!");
-        }, 500);
-        this.gameOn = false;
+        this.gameOver("tie", weapon, this.container);
       }
+    },
+    gameOver: function (result, weapon, container) {
+      if (result === "regular") {
+        container.setAttribute("data-message", `${weapon} wins!`);
+      } else {
+        container.setAttribute("data-message", "Tie!");
+      }
+      container.classList.add("gameover");
+      this.gameOn = false;
     },
   };
 
   gameboard.init();
 })();
 
-// bugs / to do
+// working on win overlay
