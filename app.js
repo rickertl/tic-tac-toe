@@ -43,8 +43,7 @@
         cells.forEach((cell) => {
           cell.addEventListener("click", this.addPlay.bind(this));
         });
-      }
-      if (this.gameOn === false) {
+      } else {
         const resetButton2 = this.container.querySelector("button");
         resetButton2.addEventListener("click", this.resetPlay.bind(this));
       }
