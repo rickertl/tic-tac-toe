@@ -3,17 +3,20 @@
 // 2. player
 // 3. control
 
-// // create factory fuction for player
-// const player = (name, weapon) => {
-//   const getName = () => name;
-//   const getWeapon = () => weapon;
-//   return { getName, getWeapon };
-// };
+// create factory function for player
+const Player = (name, weapon) => {
+  const getName = () => name;
+  const getWeapon = () => weapon;
+  return { getName, getWeapon };
+};
+
+const player1 = Player("Player 1", "X");
+const player2 = Player("Player 2", "O");
 
 // Revealing Module Pattern of gameboard
 const gameboard = (() => {
   let plays = new Array(9);
-  let weapon = "X";
+  let weapon = player1.getWeapon();
   let gameOn = true;
   let winner = "";
   let tie = false;
@@ -103,7 +106,9 @@ const gameboard = (() => {
         plays[4] === plays[2])
     ) {
       gameOn = false;
-      winner = weapon;
+      weapon === player1.getWeapon()
+        ? (winner = player1.getName())
+        : (winner = player2.getName());
     } else if (!plays.includes(undefined)) {
       gameOn = false;
       tie = true;
