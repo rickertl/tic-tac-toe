@@ -118,7 +118,7 @@ const gameboard = (() => {
   function _gameOver() {
     tie ? (message = "Tie!") : (message = `${winner} wins!`);
     const overlay = document.createElement("div");
-    overlay.classList.add("gameover");
+    overlay.classList.add("gameover", "overlay");
     overlay.textContent = message;
     container.appendChild(overlay);
     resetButton.textContent = "Play Again?";
@@ -126,4 +126,4 @@ const gameboard = (() => {
   }
 })();
 
-// refactoring to revealing module pattern
+// working on getting name and weapon inputs into game
