@@ -15,10 +15,16 @@
       <form>
         <div>
           <label for="player_name">Player 1</label>
-          <input type="text" name="player_1" id="player_1" />
+          <input type="text" name="player_1" id="player_1" placeholder="Name" />
           <div class="radios">
             <div>
-              <input type="radio" id="weapon_1" name="weapon_1" value="X" />
+              <input
+                type="radio"
+                id="weapon_1"
+                name="weapon_1"
+                value="X"
+                checked
+              />
               <label for="weapon_1">X</label>
             </div>
             <div>
@@ -29,19 +35,25 @@
         </div>
         <div>
           <label for="player_name">Player 2</label>
-          <input type="text" name="player_2" id="player_2" />
+          <input type="text" name="player_2" id="player_2" placeholder="Name" />
           <div class="radios">
             <div>
               <input type="radio" id="weapon_2" name="weapon_2" value="X" />
               <label for="weapon_2">X</label>
             </div>
             <div>
-              <input type="radio" id="weapon_2" name="weapon_2" value="O" />
+              <input
+                type="radio"
+                id="weapon_2"
+                name="weapon_2"
+                value="O"
+                checked
+              />
               <label for="weapon_2">O</label>
             </div>
           </div>
         </div>
-        <button type="submit" class="btn-dark">Submit</button>
+        <button type="submit" class="btn-dark">Fight!</button>
       </form>
     </div>
   </body>

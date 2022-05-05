@@ -18,17 +18,14 @@ h1 {
   margin: 20px 0;
   font-size: 3rem;
 }
-main {
-  /* display: grid; */
-}
 .gameboard {
   display: grid;
   grid-template-columns: repeat(3, var(--cellsize));
   width: calc(3 * var(--cellsize));
-  outline: 4px solid var(--blue);
   justify-content: center;
   margin: 0 auto;
   position: relative;
+  border-radius: 15px;
 }
 .gameboard > div:not(.gameover) {
   height: var(--cellsize);
@@ -40,51 +37,71 @@ main {
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  border-radius: 15px;
 }
 .overlay {
   color: white;
+  font-weight: bold;
   background-color: rgba(0, 0, 0, 0.8);
-  outline: 4px solid rgba(0, 0, 0, 0.8);
   position: relative;
   width: calc(3 * var(--cellsize));
   height: calc(3 * var(--cellsize));
   margin: calc(-3 * var(--cellsize)) auto 0;
+  border-radius: 15px;
 }
 .user-entry {
-  padding: 40px;
-  /* display: none; */
+  padding: 30px;
+  display: none;
 }
 .user-entry form {
+  height: 100%;
+  width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  justify-content: center;
+  gap: 30px 15px;
+}
+.user-entry form input[type="text"] {
+  padding: 8px;
+  width: 100%;
+  border-radius: 5px;
+}
+.user-entry form div {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-gap: 10px;
+  align-items: center;
 }
 .user-entry > form > div > .radios {
   display: grid;
-  grid-template-columns: auto auto;
+  grid-template-columns: repeat(2, auto);
   justify-content: start;
   grid-gap: 15px;
+  grid-column-start: 2;
+}
+.user-entry > form > div > .radios > div {
+  display: flex;
+  align-items: center;
 }
 .gameover {
   font-size: 2rem;
   line-height: 1;
-  font-weight: bold;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 40px;
 }
-.gameover button {
+button {
   padding: 10px 20px;
-  margin-bottom: 15px;
   font-size: 1rem;
+  font-weight: bold;
   cursor: pointer;
   background-color: white;
   border: none;
   outline: none;
   border-radius: 5px;
 }
-.gameover button:hover {
+button:hover {
   background-color: lightskyblue;
 }
