@@ -20,6 +20,7 @@ const gameboard = (() => {
   let gameOn = true;
   let winner = "";
   let tie = false;
+  let message = "";
   const resetButton = document.createElement("button");
 
   // cache DOM
@@ -69,7 +70,6 @@ const gameboard = (() => {
     plays = new Array(9);
     weapon = "X";
     gameOn = true;
-    winner = "";
     tie = false;
     _render();
     _bindEvents();
@@ -116,12 +116,13 @@ const gameboard = (() => {
   }
 
   function _gameOver() {
-    tie
-      ? container.setAttribute("data-message", "Tie!")
-      : container.setAttribute("data-message", `${winner} wins!`);
-    container.classList.add("gameover");
+    tie ? (message = "Tie!") : (message = `${winner} wins!`);
+    const overlay = document.createElement("div");
+    overlay.classList.add("gameover");
+    overlay.textContent = message;
+    container.appendChild(overlay);
     resetButton.textContent = "Play Again?";
-    container.appendChild(resetButton);
+    overlay.appendChild(resetButton);
   }
 })();
 
