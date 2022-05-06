@@ -95,17 +95,6 @@ h1 {
   background-color: lightgray;
   color: gray;
 }
-.user-entry > form div > .radios {
-  display: grid;
-  grid-template-columns: repeat(2, auto);
-  justify-content: start;
-  grid-gap: 15px;
-  grid-column-start: 2;
-}
-.user-entry > form > div > .radios > div {
-  display: flex;
-  align-items: center;
-}
 .gameover {
   font-size: 2rem;
   line-height: 1;
