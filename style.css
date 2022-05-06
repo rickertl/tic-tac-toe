@@ -120,6 +120,7 @@ button {
   font-size: 1rem;
   font-weight: bold;
   cursor: pointer;
+  color: black;
   background-color: white;
   border: none;
   outline: none;
