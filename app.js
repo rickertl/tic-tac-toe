@@ -7,7 +7,7 @@ const Player = (name, weapon) => {
 
 // revealing Module Pattern for gameboard (although nothing is revealed)
 const gameBoard = (() => {
-  let plays = new Array(9);
+  let plays = new Array(9).fill("");
   let player1 = {};
   let player2 = {};
   let player1Weapon = "X";
@@ -114,7 +114,7 @@ const gameBoard = (() => {
   function _resetPlay() {
     gameboard.classList.remove("gameover");
     userEntry.removeAttribute("style");
-    plays = new Array(9);
+    plays = new Array(9).fill("");
     weapon = "X";
     gameOn = true;
     tie = false;
@@ -122,33 +122,35 @@ const gameBoard = (() => {
     _bindEvents();
   }
 
+  // not elegant, but my first thought. may refactor to something like this:
+  // https://dev.to/bornasepic/pure-and-simple-tic-tac-toe-with-javascript-4pgn
   function _winnerCheck() {
     if (
       // horizontal checks
-      (plays[0] !== undefined && // makes sure not empty
+      (plays[0] !== "" && // makes sure not empty
         plays[0] === plays[1] &&
         plays[1] === plays[2]) ||
-      (plays[3] !== undefined && // makes sure not empty
+      (plays[3] !== "" && // makes sure not empty
         plays[3] === plays[4] &&
         plays[4] === plays[5]) ||
-      (plays[6] !== undefined && // makes sure not empty
+      (plays[6] !== "" && // makes sure not empty
         plays[6] === plays[7] &&
         plays[7] === plays[8]) ||
       // vertical checks
-      (plays[0] !== undefined && // makes sure not empty
+      (plays[0] !== "" && // makes sure not empty
         plays[0] === plays[3] &&
         plays[3] === plays[6]) ||
-      (plays[1] !== undefined && // makes sure not empty
+      (plays[1] !== "" && // makes sure not empty
         plays[1] === plays[4] &&
         plays[4] === plays[7]) ||
-      (plays[2] !== undefined && // makes sure not empty
+      (plays[2] !== "" && // makes sure not empty
         plays[2] === plays[5] &&
         plays[5] === plays[8]) ||
       // diagonal checks
-      (plays[0] !== undefined && // makes sure not empty
+      (plays[0] !== "" && // makes sure not empty
         plays[0] === plays[4] &&
         plays[4] === plays[8]) ||
-      (plays[6] !== undefined && // makes sure not empty
+      (plays[6] !== "" && // makes sure not empty
         plays[6] === plays[4] &&
         plays[4] === plays[2])
     ) {
@@ -158,7 +160,7 @@ const gameBoard = (() => {
           (winningWeapon = player1.getWeapon()))
         : ((winningPlayer = player2.getName()),
           (winningWeapon = player2.getWeapon()));
-    } else if (!plays.includes(undefined)) {
+    } else if (!plays.includes("")) {
       gameOn = false;
       tie = true;
     }
@@ -180,31 +182,3 @@ const gameBoard = (() => {
     overlay.appendChild(resetButton);
   }
 })();
-
-// // horizontal checks
-// (Object.hasOwn(cells, 0) && // makes sure not empty
-//   cells[0] === cells[1] &&
-//   cells[1] === cells[2]) ||
-// (Object.hasOwn(cells, 3) && // makes sure not empty
-//   cells[3] === cells[4] &&
-//   cells[4] === cells[5]) ||
-// (Object.hasOwn(cells, 6) && // makes sure not empty
-//   cells[6] === cells[7] &&
-//   cells[7] === cells[8]) ||
-// // vertical checks
-// (Object.hasOwn(cells, 0) && // makes sure not empty
-//   cells[0] === cells[3] &&
-//   cells[3] === cells[6]) ||
-// (Object.hasOwn(cells, 1) && // makes sure not empty
-//   cells[1] === cells[4] &&
-//   cells[4] === cells[7]) ||
-// (Object.hasOwn(cells, 2) && // makes sure not empty
-//   cells[2] === cells[5] &&
-//   cells[5] === cells[8]) ||
-// // diagonal checks
-// (Object.hasOwn(cells, 0) && // makes sure not empty
-//   cells[0] === cells[4] &&
-//   cells[4] === cells[8]) ||
-// (Object.hasOwn(cells, 6) && // makes sure not empty
-//   cells[6] === cells[4] &&
-//   cells[4] === cells[2])
