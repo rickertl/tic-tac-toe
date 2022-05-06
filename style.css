@@ -71,7 +71,31 @@ h1 {
   grid-gap: 10px;
   align-items: center;
 }
-.user-entry > form > div > .radios {
+.user-entry > form .weapon {
+  grid-column-start: 2;
+}
+.user-entry > form .weapon > .box {
+  width: 25px;
+  height: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  cursor: pointer;
+  color: black;
+  background-color: white;
+}
+.user-entry > form .weapon > .box:hover {
+  background-color: lightskyblue;
+}
+.user-entry > form .weapon > .box.selected {
+  background-color: lightskyblue;
+}
+.user-entry > form .weapon > .box.unselected {
+  background-color: lightgray;
+  color: gray;
+}
+.user-entry > form div > .radios {
   display: grid;
   grid-template-columns: repeat(2, auto);
   justify-content: start;
