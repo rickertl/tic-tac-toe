@@ -10,21 +10,23 @@ const Player = (name, weapon) => {
   return { getName, getWeapon };
 };
 
-const player1 = Player("Player 1", "X");
-const player2 = Player("Player 2", "O");
-
 // Revealing Module Pattern of gameboard
 const gameboard = (() => {
   let plays = new Array(9);
-  let weapon = player1.getWeapon();
+  let player1 = {};
+  let player2 = {};
+  let weapon = "";
   let gameOn = true;
-  let winner = "";
+  let winningPlayer = "";
+  let winningWeapon = "";
   let tie = false;
   let message = "";
   const resetButton = document.createElement("button");
 
   // cache DOM
   const container = document.querySelector(".gameboard");
+  const userEntry = document.querySelector(".user-entry");
+  const form = document.querySelector("form");
 
   _render();
   _bindEvents();
@@ -48,9 +50,24 @@ const gameboard = (() => {
       cells.forEach((cell) => {
         cell.addEventListener("click", _addPlay);
       });
+      form.onsubmit = _setupPlayers;
     } else {
       resetButton.addEventListener("click", _resetPlay);
     }
+  }
+
+  function _setupPlayers(event) {
+    event.preventDefault();
+    player1 = Player(
+      form.elements["player_1"].value,
+      form.elements["weapon_1"].value
+    );
+    player2 = Player(
+      form.elements["player_2"].value,
+      form.elements["weapon_2"].value
+    );
+    userEntry.style.display = "none";
+    weapon = player1.getWeapon();
   }
 
   function _addPlay(event) {
@@ -67,6 +84,7 @@ const gameboard = (() => {
 
   function _resetPlay() {
     container.classList.remove("gameover");
+    userEntry.removeAttribute("style");
     plays = new Array(9);
     weapon = "X";
     gameOn = true;
@@ -107,8 +125,10 @@ const gameboard = (() => {
     ) {
       gameOn = false;
       weapon === player1.getWeapon()
-        ? (winner = player1.getName())
-        : (winner = player2.getName());
+        ? ((winningPlayer = player1.getName()),
+          (winningWeapon = player1.getWeapon()))
+        : ((winningPlayer = player2.getName()),
+          (winningWeapon = player2.getWeapon()));
     } else if (!plays.includes(undefined)) {
       gameOn = false;
       tie = true;
@@ -116,7 +136,13 @@ const gameboard = (() => {
   }
 
   function _gameOver() {
-    tie ? (message = "Tie!") : (message = `${winner} wins!`);
+    if (tie) {
+      message = "Tie!";
+    } else if (winningPlayer === "") {
+      message = `${winningWeapon} wins!`;
+    } else {
+      message = `${winningPlayer} wins!`;
+    }
     const overlay = document.createElement("div");
     overlay.classList.add("gameover", "overlay");
     overlay.textContent = message;
