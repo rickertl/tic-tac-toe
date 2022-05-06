@@ -5,9 +5,9 @@ const Player = (name, weapon) => {
   return { getName, getWeapon };
 };
 
-// Revealing Module Pattern for gameboard
+// revealing Module Pattern for gameboard (although nothing is revealed)
 const gameBoard = (() => {
-  let cells = new Array(9);
+  let plays = new Array(9);
   let player1 = {};
   let player2 = {};
   let player1Weapon = "X";
@@ -21,24 +21,21 @@ const gameBoard = (() => {
   const resetButton = document.createElement("button");
 
   // cache DOM
-  const container = document.querySelector(".gameboard");
-  const userEntry = document.querySelector(".user-entry");
-  const form = document.querySelector("form");
-  const weapon1_X = document.querySelector(".player1-input > .weapon > .X");
-  const weapon1_O = document.querySelector(".player1-input > .weapon > .O");
-  const weapon2_X = document.querySelector(".player2-input > .weapon > .X");
-  const weapon2_O = document.querySelector(".player2-input > .weapon > .O");
+  const main = document.querySelector("main");
+  const gameboard = main.querySelector(".gameboard");
+  const userEntry = main.querySelector(".user-entry");
+  const form = userEntry.querySelector("form");
 
   _render();
   _bindEvents();
 
   function _render() {
-    container.textContent = "";
-    for (let i = 0; i < cells.length; i++) {
+    gameboard.textContent = "";
+    for (let i = 0; i < plays.length; i++) {
       let cell = document.createElement("div");
       cell.setAttribute("data-id", i);
-      cell.textContent = cells[i];
-      container.appendChild(cell);
+      cell.textContent = plays[i];
+      gameboard.appendChild(cell);
     }
     if (!gameOn) {
       _gameOver();
@@ -49,7 +46,7 @@ const gameBoard = (() => {
     if (gameOn) {
       _watchWeapons();
       form.onsubmit = _setupPlayers;
-      const cells = container.querySelectorAll("div");
+      const cells = gameboard.querySelectorAll("div");
       cells.forEach((cell) => {
         cell.addEventListener("click", _addPlay);
       });
@@ -58,7 +55,12 @@ const gameBoard = (() => {
     }
   }
 
+  // watch weapon selection to make sure opposing weapons
   function _watchWeapons() {
+    const weapon1_X = form.querySelector(".player1-input > .weapon > .X");
+    const weapon1_O = form.querySelector(".player1-input > .weapon > .O");
+    const weapon2_X = form.querySelector(".player2-input > .weapon > .X");
+    const weapon2_O = form.querySelector(".player2-input > .weapon > .O");
     weapon1_X.addEventListener("click", XvsO);
     weapon1_O.addEventListener("click", OvsX);
     weapon2_X.addEventListener("click", OvsX);
@@ -100,7 +102,7 @@ const gameBoard = (() => {
   function _addPlay(event) {
     if (event.target.textContent === "") {
       const index = event.target.getAttribute("data-id");
-      cells.splice(index, 1, weapon);
+      plays.splice(index, 1, weapon);
       _winnerCheck();
       // ready weapon for next play
       weapon === "X" ? (weapon = "O") : (weapon = "X");
@@ -110,9 +112,9 @@ const gameBoard = (() => {
   }
 
   function _resetPlay() {
-    container.classList.remove("gameover");
+    gameboard.classList.remove("gameover");
     userEntry.removeAttribute("style");
-    cells = new Array(9);
+    plays = new Array(9);
     weapon = "X";
     gameOn = true;
     tie = false;
@@ -123,32 +125,32 @@ const gameBoard = (() => {
   function _winnerCheck() {
     if (
       // horizontal checks
-      (Object.hasOwn(cells, 0) && // makes sure not empty
-        cells[0] === cells[1] &&
-        cells[1] === cells[2]) ||
-      (Object.hasOwn(cells, 3) && // makes sure not empty
-        cells[3] === cells[4] &&
-        cells[4] === cells[5]) ||
-      (Object.hasOwn(cells, 6) && // makes sure not empty
-        cells[6] === cells[7] &&
-        cells[7] === cells[8]) ||
+      (plays[0] !== undefined && // makes sure not empty
+        plays[0] === plays[1] &&
+        plays[1] === plays[2]) ||
+      (plays[3] !== undefined && // makes sure not empty
+        plays[3] === plays[4] &&
+        plays[4] === plays[5]) ||
+      (plays[6] !== undefined && // makes sure not empty
+        plays[6] === plays[7] &&
+        plays[7] === plays[8]) ||
       // vertical checks
-      (Object.hasOwn(cells, 0) && // makes sure not empty
-        cells[0] === cells[3] &&
-        cells[3] === cells[6]) ||
-      (Object.hasOwn(cells, 1) && // makes sure not empty
-        cells[1] === cells[4] &&
-        cells[4] === cells[7]) ||
-      (Object.hasOwn(cells, 2) && // makes sure not empty
-        cells[2] === cells[5] &&
-        cells[5] === cells[8]) ||
+      (plays[0] !== undefined && // makes sure not empty
+        plays[0] === plays[3] &&
+        plays[3] === plays[6]) ||
+      (plays[1] !== undefined && // makes sure not empty
+        plays[1] === plays[4] &&
+        plays[4] === plays[7]) ||
+      (plays[2] !== undefined && // makes sure not empty
+        plays[2] === plays[5] &&
+        plays[5] === plays[8]) ||
       // diagonal checks
-      (Object.hasOwn(cells, 0) && // makes sure not empty
-        cells[0] === cells[4] &&
-        cells[4] === cells[8]) ||
-      (Object.hasOwn(cells, 6) && // makes sure not empty
-        cells[6] === cells[4] &&
-        cells[4] === cells[2])
+      (plays[0] !== undefined && // makes sure not empty
+        plays[0] === plays[4] &&
+        plays[4] === plays[8]) ||
+      (plays[6] !== undefined && // makes sure not empty
+        plays[6] === plays[4] &&
+        plays[4] === plays[2])
     ) {
       gameOn = false;
       weapon === player1.getWeapon()
@@ -156,7 +158,7 @@ const gameBoard = (() => {
           (winningWeapon = player1.getWeapon()))
         : ((winningPlayer = player2.getName()),
           (winningWeapon = player2.getWeapon()));
-    } else if (!cells.includes(undefined)) {
+    } else if (!plays.includes(undefined)) {
       gameOn = false;
       tie = true;
     }
@@ -173,8 +175,36 @@ const gameBoard = (() => {
     const overlay = document.createElement("div");
     overlay.classList.add("gameover", "overlay");
     overlay.textContent = message;
-    container.appendChild(overlay);
+    gameboard.appendChild(overlay);
     resetButton.textContent = "Play Again?";
     overlay.appendChild(resetButton);
   }
 })();
+
+// // horizontal checks
+// (Object.hasOwn(cells, 0) && // makes sure not empty
+//   cells[0] === cells[1] &&
+//   cells[1] === cells[2]) ||
+// (Object.hasOwn(cells, 3) && // makes sure not empty
+//   cells[3] === cells[4] &&
+//   cells[4] === cells[5]) ||
+// (Object.hasOwn(cells, 6) && // makes sure not empty
+//   cells[6] === cells[7] &&
+//   cells[7] === cells[8]) ||
+// // vertical checks
+// (Object.hasOwn(cells, 0) && // makes sure not empty
+//   cells[0] === cells[3] &&
+//   cells[3] === cells[6]) ||
+// (Object.hasOwn(cells, 1) && // makes sure not empty
+//   cells[1] === cells[4] &&
+//   cells[4] === cells[7]) ||
+// (Object.hasOwn(cells, 2) && // makes sure not empty
+//   cells[2] === cells[5] &&
+//   cells[5] === cells[8]) ||
+// // diagonal checks
+// (Object.hasOwn(cells, 0) && // makes sure not empty
+//   cells[0] === cells[4] &&
+//   cells[4] === cells[8]) ||
+// (Object.hasOwn(cells, 6) && // makes sure not empty
+//   cells[6] === cells[4] &&
+//   cells[4] === cells[2])
