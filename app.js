@@ -7,7 +7,7 @@ const Player = (name, weapon) => {
 
 // revealing Module Pattern for gameboard (although nothing is revealed)
 const gameBoard = (() => {
-  let plays = new Array(9).fill("");
+  let gamePlays = new Array(9).fill("");
   let player1 = {};
   let player2 = {};
   let player1Weapon = "X";
@@ -31,10 +31,10 @@ const gameBoard = (() => {
 
   function _render() {
     gameboard.textContent = "";
-    for (let i = 0; i < plays.length; i++) {
+    for (let i = 0; i < gamePlays.length; i++) {
       let cell = document.createElement("div");
       cell.setAttribute("data-id", i);
-      cell.textContent = plays[i];
+      cell.textContent = gamePlays[i];
       gameboard.appendChild(cell);
     }
     if (!gameOn) {
@@ -102,7 +102,7 @@ const gameBoard = (() => {
   function _addPlay(event) {
     if (event.target.textContent === "") {
       const index = event.target.getAttribute("data-id");
-      plays.splice(index, 1, weapon);
+      gamePlays.splice(index, 1, weapon);
       _winnerCheck();
       // ready weapon for next play
       weapon === "X" ? (weapon = "O") : (weapon = "X");
@@ -114,7 +114,7 @@ const gameBoard = (() => {
   function _resetPlay() {
     gameboard.classList.remove("gameover");
     userEntry.removeAttribute("style");
-    plays = new Array(9).fill("");
+    gamePlays = new Array(9).fill("");
     weapon = "X";
     gameOn = true;
     tie = false;
@@ -127,32 +127,32 @@ const gameBoard = (() => {
   function _winnerCheck() {
     if (
       // horizontal checks
-      (plays[0] !== "" && // makes sure not empty
-        plays[0] === plays[1] &&
-        plays[1] === plays[2]) ||
-      (plays[3] !== "" && // makes sure not empty
-        plays[3] === plays[4] &&
-        plays[4] === plays[5]) ||
-      (plays[6] !== "" && // makes sure not empty
-        plays[6] === plays[7] &&
-        plays[7] === plays[8]) ||
+      (gamePlays[0] !== "" && // makes sure not empty
+        gamePlays[0] === gamePlays[1] &&
+        gamePlays[1] === gamePlays[2]) ||
+      (gamePlays[3] !== "" && // makes sure not empty
+        gamePlays[3] === gamePlays[4] &&
+        gamePlays[4] === gamePlays[5]) ||
+      (gamePlays[6] !== "" && // makes sure not empty
+        gamePlays[6] === gamePlays[7] &&
+        gamePlays[7] === gamePlays[8]) ||
       // vertical checks
-      (plays[0] !== "" && // makes sure not empty
-        plays[0] === plays[3] &&
-        plays[3] === plays[6]) ||
-      (plays[1] !== "" && // makes sure not empty
-        plays[1] === plays[4] &&
-        plays[4] === plays[7]) ||
-      (plays[2] !== "" && // makes sure not empty
-        plays[2] === plays[5] &&
-        plays[5] === plays[8]) ||
+      (gamePlays[0] !== "" && // makes sure not empty
+        gamePlays[0] === gamePlays[3] &&
+        gamePlays[3] === gamePlays[6]) ||
+      (gamePlays[1] !== "" && // makes sure not empty
+        gamePlays[1] === gamePlays[4] &&
+        gamePlays[4] === gamePlays[7]) ||
+      (gamePlays[2] !== "" && // makes sure not empty
+        gamePlays[2] === gamePlays[5] &&
+        gamePlays[5] === gamePlays[8]) ||
       // diagonal checks
-      (plays[0] !== "" && // makes sure not empty
-        plays[0] === plays[4] &&
-        plays[4] === plays[8]) ||
-      (plays[6] !== "" && // makes sure not empty
-        plays[6] === plays[4] &&
-        plays[4] === plays[2])
+      (gamePlays[0] !== "" && // makes sure not empty
+        gamePlays[0] === gamePlays[4] &&
+        gamePlays[4] === gamePlays[8]) ||
+      (gamePlays[6] !== "" && // makes sure not empty
+        gamePlays[6] === gamePlays[4] &&
+        gamePlays[4] === gamePlays[2])
     ) {
       gameOn = false;
       weapon === player1.getWeapon()
@@ -160,7 +160,7 @@ const gameBoard = (() => {
           (winningWeapon = player1.getWeapon()))
         : ((winningPlayer = player2.getName()),
           (winningWeapon = player2.getWeapon()));
-    } else if (!plays.includes("")) {
+    } else if (!gamePlays.includes("")) {
       gameOn = false;
       tie = true;
     }
