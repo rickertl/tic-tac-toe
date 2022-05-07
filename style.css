@@ -82,18 +82,15 @@ h1 {
   justify-content: center;
   border-radius: 5px;
   cursor: pointer;
-  color: black;
-  background-color: white;
+  background-color: lightgray;
+  color: gray;
 }
 .user-entry > form .weapon > .box:hover {
   background-color: lightskyblue;
 }
 .user-entry > form .weapon > .box.selected {
   background-color: lightskyblue;
-}
-.user-entry > form .weapon > .box.unselected {
-  background-color: lightgray;
-  color: gray;
+  color: black;
 }
 .gameover {
   font-size: 2rem;

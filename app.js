@@ -66,26 +66,18 @@ const gameBoard = (() => {
     weapon2_X.addEventListener("click", OvsX);
     weapon2_O.addEventListener("click", XvsO);
     function XvsO() {
-      weapon1_X.classList.add("selected");
-      weapon1_X.classList.remove("unselected");
-      weapon1_O.classList.add("unselected");
-      weapon1_O.classList.remove("selected");
-      weapon2_O.classList.add("selected");
-      weapon2_O.classList.remove("unselected");
-      weapon2_X.classList.add("unselected");
-      weapon2_X.classList.remove("selected");
+      weapon1_X.classList.toggle("selected");
+      weapon1_O.classList.toggle("selected");
+      weapon2_O.classList.toggle("selected");
+      weapon2_X.classList.toggle("selected");
       player1Weapon = "X";
       player2Weapon = "O";
     }
     function OvsX() {
-      weapon1_O.classList.add("selected");
-      weapon1_O.classList.remove("unselected");
-      weapon1_X.classList.add("unselected");
-      weapon1_X.classList.remove("selected");
-      weapon2_X.classList.add("selected");
-      weapon2_X.classList.remove("unselected");
-      weapon2_O.classList.add("unselected");
-      weapon2_O.classList.remove("selected");
+      weapon1_O.classList.toggle("selected");
+      weapon1_X.classList.toggle("selected");
+      weapon2_X.classList.toggle("selected");
+      weapon2_O.classList.toggle("selected");
       player1Weapon = "O";
       player2Weapon = "X";
     }
