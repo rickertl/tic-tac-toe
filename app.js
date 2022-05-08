@@ -12,9 +12,8 @@ const gameBoard = (() => {
   let player2 = {};
   let weapon = "";
   let gameOn = true;
-  let winningPlayer = "";
-  let winningWeapon = "";
   let tie = false;
+  let winner = {};
   let message = "";
   const resetButton = document.createElement("button");
 
@@ -136,10 +135,8 @@ const gameBoard = (() => {
       ) {
         gameOn = false;
         weapon === player1.getWeapon()
-          ? ((winningPlayer = player1.getName()),
-            (winningWeapon = player1.getWeapon()))
-          : ((winningPlayer = player2.getName()),
-            (winningWeapon = player2.getWeapon()));
+          ? (winner = player1)
+          : (winner = player2);
       } else if (!gamePlays.includes("")) {
         gameOn = false;
         tie = true;
@@ -150,10 +147,10 @@ const gameBoard = (() => {
   function _gameOver() {
     if (tie) {
       message = "Tie!";
-    } else if (winningPlayer === "") {
-      message = `${winningWeapon} wins!`;
+    } else if (winner.getName() === "") {
+      message = `${winner.getWeapon()} wins!`;
     } else {
-      message = `${winningPlayer} wins!`;
+      message = `${winner.getName()} wins!`;
     }
     const overlay = document.createElement("div");
     overlay.classList.add("gameover", "overlay");
