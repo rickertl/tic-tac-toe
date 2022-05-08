@@ -7,7 +7,7 @@ const Player = (name, weapon) => {
 
 // revealing Module Pattern for gameboard (although nothing is revealed)
 const gameBoard = (() => {
-  let gamePlays = new Array(9).fill("");
+  const gamePlays = new Array(9).fill("");
   let player1 = {};
   let player2 = {};
   let weapon = "";
@@ -105,8 +105,7 @@ const gameBoard = (() => {
   function _resetPlay() {
     gameboard.classList.remove("gameover");
     userEntry.removeAttribute("style");
-    gamePlays = new Array(9).fill("");
-    weapon = "X";
+    gamePlays.fill("");
     gameOn = true;
     tie = false;
     _render();
