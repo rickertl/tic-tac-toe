@@ -122,47 +122,34 @@ const gameBoard = (() => {
     _bindEvents();
   }
 
-  // not elegant, but my first thought. may refactor to something like this:
-  // https://dev.to/bornasepic/pure-and-simple-tic-tac-toe-with-javascript-4pgn
   function _winnerCheck() {
-    if (
-      // horizontal checks
-      (gamePlays[0] !== "" && // makes sure not empty
-        gamePlays[0] === gamePlays[1] &&
-        gamePlays[1] === gamePlays[2]) ||
-      (gamePlays[3] !== "" && // makes sure not empty
-        gamePlays[3] === gamePlays[4] &&
-        gamePlays[4] === gamePlays[5]) ||
-      (gamePlays[6] !== "" && // makes sure not empty
-        gamePlays[6] === gamePlays[7] &&
-        gamePlays[7] === gamePlays[8]) ||
-      // vertical checks
-      (gamePlays[0] !== "" && // makes sure not empty
-        gamePlays[0] === gamePlays[3] &&
-        gamePlays[3] === gamePlays[6]) ||
-      (gamePlays[1] !== "" && // makes sure not empty
-        gamePlays[1] === gamePlays[4] &&
-        gamePlays[4] === gamePlays[7]) ||
-      (gamePlays[2] !== "" && // makes sure not empty
-        gamePlays[2] === gamePlays[5] &&
-        gamePlays[5] === gamePlays[8]) ||
-      // diagonal checks
-      (gamePlays[0] !== "" && // makes sure not empty
-        gamePlays[0] === gamePlays[4] &&
-        gamePlays[4] === gamePlays[8]) ||
-      (gamePlays[6] !== "" && // makes sure not empty
-        gamePlays[6] === gamePlays[4] &&
-        gamePlays[4] === gamePlays[2])
-    ) {
-      gameOn = false;
-      weapon === player1.getWeapon()
-        ? ((winningPlayer = player1.getName()),
-          (winningWeapon = player1.getWeapon()))
-        : ((winningPlayer = player2.getName()),
-          (winningWeapon = player2.getWeapon()));
-    } else if (!gamePlays.includes("")) {
-      gameOn = false;
-      tie = true;
+    const winPatterns = [
+      [0, 1, 2],
+      [3, 4, 5],
+      [6, 7, 8],
+      [0, 3, 6],
+      [1, 4, 7],
+      [2, 5, 8],
+      [0, 4, 8],
+      [2, 4, 6],
+    ];
+    for (let index = 0; index < winPatterns.length; index++) {
+      let winPattern = winPatterns[index];
+      if (
+        gamePlays[winPattern[0]] !== "" &&
+        gamePlays[winPattern[0]] === gamePlays[winPattern[1]] &&
+        gamePlays[winPattern[1]] === gamePlays[winPattern[2]]
+      ) {
+        gameOn = false;
+        weapon === player1.getWeapon()
+          ? ((winningPlayer = player1.getName()),
+            (winningWeapon = player1.getWeapon()))
+          : ((winningPlayer = player2.getName()),
+            (winningWeapon = player2.getWeapon()));
+      } else if (!gamePlays.includes("")) {
+        gameOn = false;
+        tie = true;
+      }
     }
   }
 
