@@ -10,8 +10,6 @@ const gameBoard = (() => {
   let gamePlays = new Array(9).fill("");
   let player1 = {};
   let player2 = {};
-  let player1Weapon = "X";
-  let player2Weapon = "O";
   let weapon = "";
   let gameOn = true;
   let winningPlayer = "";
@@ -33,7 +31,7 @@ const gameBoard = (() => {
     gameboard.textContent = "";
     for (let i = 0; i < gamePlays.length; i++) {
       let cell = document.createElement("div");
-      cell.setAttribute("data-id", i);
+      cell.setAttribute("data-index", i);
       cell.textContent = gamePlays[i];
       gameboard.appendChild(cell);
     }
@@ -58,7 +56,6 @@ const gameBoard = (() => {
   // watch weapon selection to make sure opposing weapons
   function _watchWeapons() {
     const boxes = form.querySelectorAll(".weapon > .box");
-    console.log(boxes);
     boxes.forEach((box) => {
       box.addEventListener("click", () => {
         boxes.forEach((box) => {
@@ -66,14 +63,10 @@ const gameBoard = (() => {
         });
         if (box.classList.contains("p1x") || box.classList.contains("p2o")) {
           form.querySelector(".p1x").classList.add("selected");
-          player1Weapon = "X";
           form.querySelector(".p2o").classList.add("selected");
-          player2Weapon = "O";
         } else {
           form.querySelector(".p1o").classList.add("selected");
-          player1Weapon = "O";
           form.querySelector(".p2x").classList.add("selected");
-          player2Weapon = "X";
         }
       });
     });
@@ -81,15 +74,25 @@ const gameBoard = (() => {
 
   function _setupPlayers(event) {
     event.preventDefault();
-    player1 = Player(form.elements["player_1"].value, player1Weapon);
-    player2 = Player(form.elements["player_2"].value, player2Weapon);
+    player1 = Player(
+      form.elements["player_1"].value,
+      form
+        .querySelector(".player1-input > .weapon > .selected")
+        .getAttribute("data-weapon")
+    );
+    player2 = Player(
+      form.elements["player_2"].value,
+      form
+        .querySelector(".player2-input > .weapon > .selected")
+        .getAttribute("data-weapon")
+    );
     userEntry.style.display = "none";
     weapon = player1.getWeapon();
   }
 
   function _addPlay(event) {
     if (event.target.textContent === "") {
-      const index = event.target.getAttribute("data-id");
+      const index = event.target.getAttribute("data-index");
       gamePlays.splice(index, 1, weapon);
       _winnerCheck();
       // ready weapon for next play
