@@ -57,30 +57,26 @@ const gameBoard = (() => {
 
   // watch weapon selection to make sure opposing weapons
   function _watchWeapons() {
-    const weapon1_X = form.querySelector(".player1-input > .weapon > .X");
-    const weapon1_O = form.querySelector(".player1-input > .weapon > .O");
-    const weapon2_X = form.querySelector(".player2-input > .weapon > .X");
-    const weapon2_O = form.querySelector(".player2-input > .weapon > .O");
-    weapon1_X.addEventListener("click", XvsO);
-    weapon1_O.addEventListener("click", OvsX);
-    weapon2_X.addEventListener("click", OvsX);
-    weapon2_O.addEventListener("click", XvsO);
-    function XvsO() {
-      weapon1_X.classList.add("selected");
-      weapon1_O.classList.remove("selected");
-      weapon2_O.classList.add("selected");
-      weapon2_X.classList.remove("selected");
-      player1Weapon = "X";
-      player2Weapon = "O";
-    }
-    function OvsX() {
-      weapon1_O.classList.add("selected");
-      weapon1_X.classList.remove("selected");
-      weapon2_X.classList.add("selected");
-      weapon2_O.classList.remove("selected");
-      player1Weapon = "O";
-      player2Weapon = "X";
-    }
+    const boxes = form.querySelectorAll(".weapon > .box");
+    console.log(boxes);
+    boxes.forEach((box) => {
+      box.addEventListener("click", () => {
+        boxes.forEach((box) => {
+          box.classList.remove("selected");
+        });
+        if (box.classList.contains("p1x") || box.classList.contains("p2o")) {
+          form.querySelector(".p1x").classList.add("selected");
+          player1Weapon = "X";
+          form.querySelector(".p2o").classList.add("selected");
+          player2Weapon = "O";
+        } else {
+          form.querySelector(".p1o").classList.add("selected");
+          player1Weapon = "O";
+          form.querySelector(".p2x").classList.add("selected");
+          player2Weapon = "X";
+        }
+      });
+    });
   }
 
   function _setupPlayers(event) {
