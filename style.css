@@ -74,7 +74,7 @@ h1 {
 .user-entry > form .weapon {
   grid-column-start: 2;
 }
-.user-entry > form .weapon > .box {
+.user-entry > form .weapon > .weapon-btn {
   width: 25px;
   height: 25px;
   display: flex;
@@ -85,10 +85,11 @@ h1 {
   background-color: lightgray;
   color: gray;
 }
-.user-entry > form .weapon > .box:hover {
-  background-color: lightskyblue;
+.user-entry > form .weapon > .weapon-btn:hover {
+  background-color: white;
+  color: black;
 }
-.user-entry > form .weapon > .box.selected {
+.user-entry > form .weapon > .weapon-btn.selected {
   background-color: lightskyblue;
   color: black;
 }

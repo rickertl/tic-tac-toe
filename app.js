@@ -1,4 +1,4 @@
-// create factory function for players
+// create Factory Function for players
 const Player = (name, weapon) => {
   const getName = () => name;
   const getWeapon = () => weapon;
@@ -55,18 +55,22 @@ const gameBoard = (() => {
 
   // watch weapon selection to make sure opposing weapons
   function _watchWeapons() {
-    const boxes = form.querySelectorAll(".weapon > .box");
-    boxes.forEach((box) => {
-      box.addEventListener("click", () => {
-        boxes.forEach((box) => {
-          box.classList.remove("selected");
+    const weaponButtons = form.querySelectorAll(".weapon-btn");
+    const p1x_p2o = form.querySelectorAll(".p1x-p2o");
+    const p1o_p2x = form.querySelectorAll(".p1o-p2x");
+    weaponButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        weaponButtons.forEach((button) => {
+          button.classList.remove("selected");
         });
-        if (box.classList.contains("p1x") || box.classList.contains("p2o")) {
-          form.querySelector(".p1x").classList.add("selected");
-          form.querySelector(".p2o").classList.add("selected");
+        if (button.classList.contains("p1x-p2o")) {
+          p1x_p2o.forEach((button) => {
+            button.classList.add("selected");
+          });
         } else {
-          form.querySelector(".p1o").classList.add("selected");
-          form.querySelector(".p2x").classList.add("selected");
+          p1o_p2x.forEach((button) => {
+            button.classList.add("selected");
+          });
         }
       });
     });
@@ -77,13 +81,13 @@ const gameBoard = (() => {
     player1 = Player(
       form.elements["player_1"].value,
       form
-        .querySelector(".player1-input > .weapon > .selected")
+        .querySelector(".player1-input .weapon-btn.selected")
         .getAttribute("data-weapon")
     );
     player2 = Player(
       form.elements["player_2"].value,
       form
-        .querySelector(".player2-input > .weapon > .selected")
+        .querySelector(".player2-input .weapon-btn.selected")
         .getAttribute("data-weapon")
     );
     userEntry.style.display = "none";
@@ -123,8 +127,8 @@ const gameBoard = (() => {
       [0, 4, 8],
       [6, 4, 2],
     ];
-    for (let index = 0; index < winPatterns.length; index++) {
-      let winPattern = winPatterns[index];
+    for (let i = 0; i < winPatterns.length; i++) {
+      let winPattern = winPatterns[i];
       if (
         gamePlays[winPattern[0]] !== "" &&
         gamePlays[winPattern[0]] === gamePlays[winPattern[1]] &&
