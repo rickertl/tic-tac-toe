@@ -168,10 +168,9 @@ const gameBoard = (() => {
     } else if (winner.getName() !== "") {
       message = `${winner.getName()} (${winner.getWeapon()}) wins!`;
     } else {
-      message = `${winner.getWeapon()} wins!`;
       winner.getWeapon() === player1.getWeapon()
-        ? (message = `Player 1 (${weapon}) wins!`)
-        : (message = `Player 2 (${weapon}) wins!`);
+        ? (message = `Player 1 (${winner.getWeapon()}) wins!`)
+        : (message = `Player 2 (${winner.getWeapon()}) wins!`);
     }
     turn.removeAttribute("style");
     const overlay = document.createElement("div");
