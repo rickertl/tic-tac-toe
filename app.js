@@ -102,11 +102,11 @@ const gameBoard = (() => {
     let player = {};
     weapon === player1.getWeapon() ? (player = player1) : (player = player2);
     if (player.getName() !== "") {
-      turn.textContent = `${player.getName()}'s (${weapon}) turn`;
+      turn.textContent = `${player.getName()}'s (${player.getWeapon()}) turn`;
     } else {
-      weapon === player1.getWeapon()
-        ? (turn.textContent = `Player 1's (${weapon}) turn`)
-        : (turn.textContent = `Player 2's (${weapon}) turn`);
+      player === player1
+        ? (turn.textContent = `Player 1's (${player.getWeapon()}) turn`)
+        : (turn.textContent = `Player 2's (${player.getWeapon()}) turn`);
     }
   }
 
