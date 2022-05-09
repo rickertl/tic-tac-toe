@@ -165,10 +165,13 @@ const gameBoard = (() => {
   function _gameOver() {
     if (tie) {
       message = "Tie!";
-    } else if (winner.getName() === "") {
-      message = `${winner.getWeapon()} wins!`;
+    } else if (winner.getName() !== "") {
+      message = `${winner.getName()} (${winner.getWeapon()}) wins!`;
     } else {
-      message = `${winner.getName()} wins!`;
+      message = `${winner.getWeapon()} wins!`;
+      winner.getWeapon() === player1.getWeapon()
+        ? (message = `Player 1 (${weapon}) wins!`)
+        : (message = `Player 2 (${weapon}) wins!`);
     }
     turn.removeAttribute("style");
     const overlay = document.createElement("div");
