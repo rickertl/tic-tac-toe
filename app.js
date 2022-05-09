@@ -15,6 +15,7 @@ const gameBoard = (() => {
   let tie = false;
   let winner = {};
   let message = "";
+  const turn = document.createElement("div");
   const resetButton = document.createElement("button");
 
   // cache DOM
@@ -37,6 +38,8 @@ const gameBoard = (() => {
     if (!gameOn) {
       _gameOver();
     }
+    turn.classList.add("turn");
+    gameboard.appendChild(turn);
   }
 
   function _bindEvents() {
@@ -91,6 +94,20 @@ const gameBoard = (() => {
     );
     userEntry.style.display = "none";
     weapon = player1.getWeapon();
+    _whoseTurn();
+  }
+
+  function _whoseTurn() {
+    turn.style.display = "flex";
+    let player = {};
+    weapon === player1.getWeapon() ? (player = player1) : (player = player2);
+    if (player.getName() !== "") {
+      turn.textContent = `${player.getName()}'s (${weapon}) turn`;
+    } else {
+      weapon === player1.getWeapon()
+        ? (turn.textContent = `Player 1's (${weapon}) turn`)
+        : (turn.textContent = `Player 2's (${weapon}) turn`);
+    }
   }
 
   function _addPlay(event) {
@@ -100,6 +117,7 @@ const gameBoard = (() => {
       _winnerCheck();
       // ready weapon for next play
       weapon === "X" ? (weapon = "O") : (weapon = "X");
+      _whoseTurn();
     }
     _render();
     _bindEvents();
@@ -152,6 +170,7 @@ const gameBoard = (() => {
     } else {
       message = `${winner.getName()} wins!`;
     }
+    turn.removeAttribute("style");
     const overlay = document.createElement("div");
     overlay.classList.add("gameover", "overlay");
     overlay.textContent = message;
