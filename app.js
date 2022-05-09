@@ -80,14 +80,22 @@ const gameBoard = (() => {
 
   function _setupPlayers(event) {
     event.preventDefault();
+    let player1Name = "Player 1";
+    let player2Name = "Player 2";
+    if (form.elements["player_1"].value !== "") {
+      player1Name = form.elements["player_1"].value;
+    }
+    if (form.elements["player_2"].value !== "") {
+      player2Name = form.elements["player_2"].value;
+    }
     player1 = Player(
-      form.elements["player_1"].value,
+      player1Name,
       form
         .querySelector(".player1-input .weapon-btn.selected")
         .getAttribute("data-weapon")
     );
     player2 = Player(
-      form.elements["player_2"].value,
+      player2Name,
       form
         .querySelector(".player2-input .weapon-btn.selected")
         .getAttribute("data-weapon")
@@ -101,13 +109,7 @@ const gameBoard = (() => {
     turn.style.display = "flex";
     let player = {};
     weapon === player1.getWeapon() ? (player = player1) : (player = player2);
-    if (player.getName() !== "") {
-      turn.textContent = `${player.getName()}'s (${player.getWeapon()}) turn`;
-    } else {
-      player === player1
-        ? (turn.textContent = `Player 1's (${player.getWeapon()}) turn`)
-        : (turn.textContent = `Player 2's (${player.getWeapon()}) turn`);
-    }
+    turn.textContent = `${player.getName()}'s (${player.getWeapon()}) turn`;
   }
 
   function _addPlay(event) {
@@ -165,12 +167,8 @@ const gameBoard = (() => {
   function _gameOver() {
     if (tie) {
       message = "Tie!";
-    } else if (winner.getName() !== "") {
-      message = `${winner.getName()} (${winner.getWeapon()}) wins!`;
     } else {
-      winner.getWeapon() === player1.getWeapon()
-        ? (message = `Player 1 (${winner.getWeapon()}) wins!`)
-        : (message = `Player 2 (${winner.getWeapon()}) wins!`);
+      message = `${winner.getName()} (${winner.getWeapon()}) wins!`;
     }
     turn.removeAttribute("style");
     const overlay = document.createElement("div");
